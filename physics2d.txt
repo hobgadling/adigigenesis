@@ -1,0 +1,76 @@
+Connections:
+	The three high bits and the three low bits of each instruction can bind with the appropriate three bits of the surrounding instructions if the bits XOR to 1
+		Triple bond if top 3 bits of one instructions XOR to 111 with low three bits of previous instruction - 8 Energy
+		Double bond if top 2 bits of one instructions XOR to 11 with low two bits of previous instruction - 4 Energy
+		Single bond if top bit of one instructions XORs to 1 with low bit of previous instruction - 2 Energy
+	Nothing binds to 0x0000
+	Connections are made to the most energetic bond first, and then clockwise around the cell if there are multiple connections at the same energy level
+	The minimum instruction angle is 90 degrees
+	If the low bits have a more energetic connection they will connect first, and vice-versa; if both low and high bits are trying to connect at the same energy level, the low bits of the instruction will connect first
+	Possible connections to instruction at (x,y):
+		Low bits:
+			(x,y-1)
+				Possible high bit connections:
+					(x+1,y)
+					(x+1,y+1)
+					(x,y+1)
+			(x-1,y-1)
+				Possible high bit connections:
+					(x+1,y-1)
+					(x+1,y)
+					(x+1,y+1)
+					(x,y+1)
+			(x-1,y)
+				Possible high bit connections:
+					(x,y-1)
+					(x+1,y-1)
+					(x+1,y)
+					(x+1,y+1)
+					(x,y+1)
+			(x-1,y+1)
+				Possible high bit connections:
+					(x,y-1)
+					(x+1,y-1)
+					(x+1,y)
+					(x+1,y+1)
+			(x,y+1)
+				Possible high bit connections:
+					(x,y-1)
+					(x+1,y-1)
+					(x+1,y)
+		High bits:
+			(x,y-1)
+				Possible low bit connections:
+					(x,y+1)
+					(x-1,y+1)
+					(x-1,y)
+			(x+1,y-1)
+				Possible low bit connections:
+					(x,y+1)
+					(x-1,y+1)
+					(x-1,y)
+					(x-1,y-1)
+			(x+1,y)
+				Possible low bit connections:
+					(x,y+1)
+					(x-1,y+1)
+					(x-1,y)
+					(x-1,y-1)
+					(x,y-1)
+			(x+1,y+1)
+				Possible low bit connections:
+					(x-1,y+1)
+					(x-1,y)
+					(x-1,y-1)
+					(x,y-1)
+			(x,y+1)
+				Possible low bit connections:
+					(x-1,y)
+					(x-1,y-1)
+					(x,y-1)
+					
+Movement:
+	Currents come about randomly
+	
+Mutation:
+	
