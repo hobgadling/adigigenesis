@@ -5,6 +5,9 @@
 	
 	$mysqli = new mysqli('localhost','maximus','ltiS950+','adigi');
 	
+	include 'libs/functions.php';
+	include 'libs/create_connections.php';
+	
 	$query = "INSERT INTO world (rev,size,dimensions,created_at) VALUES(" . (float)REVISION . "," . SIZE . "," . DIMS . ",NOW())";
 	$mysqli->query($query);
 	
