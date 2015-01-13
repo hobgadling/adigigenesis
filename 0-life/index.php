@@ -9,7 +9,7 @@
 		}
 		#container{
 			margin: 0 auto;
-			width: 500px;
+			width: 1000px;
 		}
 		.cell{
 			float: left;

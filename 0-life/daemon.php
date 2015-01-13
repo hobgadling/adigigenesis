@@ -1,6 +1,6 @@
 <?php
 	ini_set('max_execution_time', 0);
-	const SIZE = 20;
+	const SIZE = 40;
 	$grid = array();
 	
 	function neighborsSum($grid,$row_id,$col_id){
