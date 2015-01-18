@@ -146,7 +146,7 @@
 		}
 	}
 	
-	if(SIZE/10 < 8){
+	if(SIZE/10 < 9){
 		$segment_num = 1;
 		for($i = 0; $i < SIZE; $i += 10){
 			for($j = 0; $j < SIZE; $j += 10){
@@ -156,7 +156,13 @@
 		}
 		$chunk_size = 10;
 	} else {
-		
+		$chunk_size = SIZE / 8;
+		for($i = 0; $i < SIZE; $i += $chunk_size){
+			for($j = 0; $j < SIZE; $j += $chunk_size){
+				$segments[$segment_num] = $i . 'x' . $j;
+				$segment_num++;
+			}
+		}
 	}
 	
 	$key = ftok(getcwd() . '/get_segments.php','a');
