@@ -2,22 +2,22 @@
 //externally supplied functions
 function read6502($address){
 	if($address < 0){
-		$address = (SIZE ^ 2) - $address;
+		$address = pow(SIZE,2) - $address;
 	}
-	$readaddr = $address % (SIZE ^ 2);
+	$readaddr = $address % pow(SIZE, 2);
 	$i = floor($readaddr/SIZE);
 	$j = $readaddr%SIZE;
-	return $GLOBALS['grid'][$i][$j] & 0xFF;
+	return ($GLOBALS['grid'][$i][$j] & 0xFF00) >> 8;
 }
 
 function write6502($address, $value){
 	if($address < 0){
-		$address = (SIZE ^ 2) - $address;
+		$address = pow(SIZE, 2) - $address;
 	}
-	$readaddr = $address % (SIZE ^ 2);
+	$readaddr = $address % pow(SIZE, 2);
 	$i = floor($readaddr/SIZE);
 	$j = $readaddr%SIZE;
-	$GLOBALS['grid'][$i][$j] = $value;
+	$GLOBALS['grid'][$i][$j] = ($value << 8) + ($GLOBALS['grid'][$i][$j] & 0xFF00FF);
 }
 
 //6502 defines
@@ -963,6 +963,6 @@ function step6502() {
 
     $GLOBALS['instructions']++;
     
-    $GLOBALS['pc'] = $GLOBALS['pc'] % (SIZE ^ 2);
+    $GLOBALS['pc'] = $GLOBALS['pc'] % pow(SIZE, 2);
 }
 ?>
