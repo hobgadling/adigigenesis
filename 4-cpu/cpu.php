@@ -1,7 +1,18 @@
 <?php
 //externally supplied functions
-extern uint8_t read6502(uint16_t address);
-extern void write6502(uint16_t address, uint8_t value);
+function read6502($address){
+	$readaddr = $address % (SIZE ^ 2);
+	$i = floor($readaddr/SIZE);
+	$j = $readaddr%SIZE;
+	return $grid[$i][$j] & 0xFF;
+}
+
+function write6502($address, $value){
+	$readaddr = $address % (SIZE ^ 2);
+	$i = floor($readaddr/SIZE);
+	$j = $readaddr%SIZE;
+	$grid[$i][$j] = $value;
+}
 
 //6502 defines
 const FLAG_CARRY     0x01

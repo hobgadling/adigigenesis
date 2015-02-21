@@ -1,8 +1,10 @@
 <?php
+	include 'cpu.php';
+	
 	ini_set('max_execution_time', 0);
 	const SIZE = 40;
-	$grid = array();
-	$segments = array();
+	var $grid = array();
+	var $segments = array();
 	$shmHeaderSize = (PHP_INT_SIZE * 4) + 8;
 	
 	function neighborsSum($grid,$row_id,$col_id){
