@@ -2,22 +2,8 @@
 
 include 'Game.php';
 
-function std_dev($arr) {
-    $num_of_elements = count($arr);
-
-    $variance = 0.0;
-
-    $average = array_sum($arr)/$num_of_elements;
-
-    foreach($arr as $i) {
-        $variance += pow(($i - $average), 2);
-    }
-
-    return (float)sqrt($variance/$num_of_elements);
-}
-
 $size = 40;
-$states = [0,1];
+$states = [0,1,2,3];
 $board = [];
 
 for($i = 0; $i < $size; $i++){
@@ -46,15 +32,15 @@ for($i = -$size/2; $i <= $size/2; $i++){
 
 $rules = [];
 
-$arr = range(0,$max_sum);
-$devi = std_dev($arr);
 $center = $max_sum/2;
 
 foreach($states as $state){
     $rules[$state] = [];
     for($i = 0; $i <= $max_sum; $i++){
-        $devs = floor(abs($center - $i) / $devi);
-        $rules[$state][$i] = $states[count($states) - 1 - $devs];
+        $dist = abs($center - $i);
+        $div = ($max_sum / count($states)) / 2;
+        $nth = floor($dist/$div);
+        $rules[$state][$i] = count($states) - 1 - $nth > 0 ? $states[count($states) - 1 - $nth] : $states[0];
     }
 }
 
