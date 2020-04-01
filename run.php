@@ -2,58 +2,61 @@
 
 include 'Game.php';
 
-$size = 5;
-$board = [];
-for($i = 0; $i < $size; $i++){
-    $board[] = array_fill(0,$size,0);
+function std_dev($arr) {
+    $num_of_elements = count($arr);
+
+    $variance = 0.0;
+
+    $average = array_sum($arr)/$num_of_elements;
+
+    foreach($arr as $i) {
+        $variance += pow(($i - $average), 2);
+    }
+
+    return (float)sqrt($variance/$num_of_elements);
 }
 
-foreach($board as $column_id => $row){
-    foreach($row as $row_id => $cell){
-      $board[$column_id][$row_id] = rand(0,1);
+$size = 40;
+$states = [0,1];
+$board = [];
+
+for($i = 0; $i < $size; $i++){
+    $board[$i] = [];
+    for($j = 0; $j < $size; $j++){
+        $board[$i][$j] = $states[array_rand($states)];
     }
 }
 
-$states = [0,1];
-
-$func = function($me,$center){
-    return $me;
+$func = function($my_col,$my_row,$center_col,$center_row,$my_val,$center_val){
+    $distance = floor(sqrt(($center_col - $my_col) ** 2 + ($center_row - $my_row) ** 2));
+    return floor($my_val/($distance ** 2));
 };
 
-$neighborhood = [
-    ['column_offset' => -1,'row_offset' => -1,'calc' => $func],
-    ['column_offset' => -1,'row_offset' => 0, 'calc' => $func],
-    ['column_offset' => -1,'row_offset' => 1, 'calc' => $func],
-    ['column_offset' => 0, 'row_offset' => -1,'calc' => $func],
-    ['column_offset' => 0, 'row_offset' => 1, 'calc' => $func],
-    ['column_offset' => 1, 'row_offset' => -1,'calc' => $func],
-    ['column_offset' => 1, 'row_offset' => 0, 'calc' => $func],
-    ['column_offset' => 1, 'row_offset' => 1, 'calc' => $func]
-];
+$max_sum = 16 * max($states);
 
-$rules = [0 => [
-                  0 => 0,
-                  1 => 0,
-                  2 => 0,
-                  3 => 1,
-                  4 => 0,
-                  5 => 0,
-                  6 => 0,
-                  7 => 0,
-                  8 => 0
-              ],
-          1 => [
-                  0 => 0,
-                  1 => 0,
-                  2 => 1,
-                  3 => 1,
-                  4 => 0,
-                  5 => 0,
-                  6 => 0,
-                  7 => 0,
-                  8 => 0
-              ]
-        ];
+$neighborhood = [];
+
+for($i = -$size/2; $i <= $size/2; $i++){
+    for($j = -$size/2; $j <= $size/2; $j++){
+        if($i != 0 || $j != 0){
+            $neighborhood[] = ['column_offset' => $i, 'row_offset' => $j, 'calc' => $func];
+        }
+    }
+}
+
+$rules = [];
+
+$arr = range(0,$max_sum);
+$devi = std_dev($arr);
+$center = $max_sum/2;
+
+foreach($states as $state){
+    $rules[$state] = [];
+    for($i = 0; $i <= $max_sum; $i++){
+        $devs = floor(abs($center - $i) / $devi);
+        $rules[$state][$i] = $states[count($states) - 1 - $devs];
+    }
+}
 
 $game = new Game();
 $game->init($board,$states,$neighborhood,$rules);

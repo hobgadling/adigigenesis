@@ -35,7 +35,7 @@ class Game {
                       && $new_col < count($this->_board)
                       && $new_row >= 0
                       && $new_row < count($row)){
-                          $change += $neighbor['calc']($this->_board[$new_col][$new_row],$this->_board[$column_id][$row_id]);
+                          $change += $neighbor['calc']($new_col,$new_row,$column_id,$row_id,$this->_board[$new_col][$new_row],$this->_board[$column_id][$row_id]);
                       }
                 }
 
@@ -44,6 +44,7 @@ class Game {
         }
 
         $this->_board = $new_board;
+        file_put_contents('board.txt',serialize($this->_board));
         $this->printBoard();
     }
 
